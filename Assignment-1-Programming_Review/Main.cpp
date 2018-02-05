@@ -9,6 +9,16 @@ int main()
     bool keepGoing = true;
     string decision;
     cout << "Welcome to the Array Structure Program!" << endl;
+    
+    // Initial Setup of the Program
+    int arrayInteger [20];
+    char *ptrChar[20];
+    for (int i = 0; i < sizeof(arrayInteger)/sizeof(arrayInteger[0]); i++)
+    {
+        arrayInteger[i] = recursiveFunction(i);
+    }
+    
+
     while (keepGoing)
     {
         cout << "Please select an option:\n\t1. Access a Pointer\n\t2. List Deallocated Memory (index)\n\t3. Deallocate All Memory\n\t4. Exit Program\nYour input: ";
@@ -26,12 +36,6 @@ int main()
         if (keepGoing)
         {
             int trueDecision = stoi(decision);
-            // int arrayInteger [20];
-            // char* arrayChar[20];
-            // for (int i = 0; i < sizeof(arrayInteger); i++)
-            // {
-            //     arrayInteger[i] = recursiveFunction(i);
-            // }
             switch (trueDecision)
             {
                 case 1:
@@ -52,6 +56,11 @@ int main()
                 case 4:
                 {
                     cout << "Thank you for using the program. GoodBye! :)" << endl;
+                    for (int i = 0; i < (sizeof(arrayInteger)/sizeof(arrayInteger[0])); ++i)
+                    {
+                        delete ptrChar[i];
+                    }
+                    delete[] ptrChar;
                     keepGoing = false;
                     break;
                 }
