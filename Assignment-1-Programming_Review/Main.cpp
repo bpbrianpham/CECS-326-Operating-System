@@ -11,17 +11,18 @@ bool validateInput(string);
 int main()
 {
     // Initial Setup of the Program
+    int arraySize = 3;
     bool menuStatus = true;
     bool subMenuStatus;
     string decision;
-    int arrayInteger [3];
-    char* ptrChar[3];
+    int arrayInteger [arraySize];
+    char* ptrChar[arraySize];
     int rand();
     srand (time(NULL));
     const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     cout << "Welcome to the Array Structure Program!" << endl;
 
-    for (int i = 0; i < sizeof(arrayInteger)/sizeof(arrayInteger[0]); i++)
+    for (int i = 0; i < arraySize; i++)
     {
         arrayInteger[i] = recursiveFunction(i);
         ptrChar[i] = new char[arrayInteger[i]];
@@ -55,13 +56,21 @@ int main()
                             decisionValue = stoi(decision);
                             if (decisionValue > 0 && decisionValue < 21)
                             {
-                                cout << "The pointer at index " << decisionValue << " contains: ";
-                                for (int k=0; k < arrayInteger[decisionValue-1]; k++)
+                                if (ptrChar[decisionValue-1] != NULL)
                                 {
-                                    cout << ptrChar[decisionValue-1][k];
+                                    cout << "The pointer at index " << decisionValue << " contains: ";
+                                    for (int k=0; k < arrayInteger[decisionValue-1]; k++)
+                                    {
+                                        cout << ptrChar[decisionValue-1][k];
+                                    }
+                                    cout <<"\n";
                                 }
-                                cout <<"\n";
+                                else
+                                {
+                                    cout << "The pointer at index " << decisionValue << " contains: NULL" <<endl;
+                                }
                                 subMenuStatus = false;
+                                cout <<"\n";
                             }
                             else
                             {
@@ -77,12 +86,21 @@ int main()
                 }
                 case 2:
                 {
-
+                    cout << "Deallocated Memory:";
+                    for (int i=0; i < arraySize; i++)
+                    {
+                        cout << "\n\t" << i+1 << ". " << &ptrChar[i];
+                    }
+                    cout << "\n\n";
                     break;
                 }
                 case 3:
                 {
-
+                    cout << "Deallocating All Memory......\n" << endl;
+                    for (int i=0; i < arraySize; i++)
+                    {
+                        ptrChar[i] = NULL; 
+                    }
                     break;
                 }
                 case 4:
