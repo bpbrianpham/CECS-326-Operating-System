@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
-#include <string>
 using namespace std;
 
 int recursiveFunction(int);
@@ -15,7 +14,7 @@ int main()
     bool menuStatus = true;
     bool subMenuStatus;
     string decision;
-    int arrayInteger [arraySize];
+    int arrayInteger[arraySize];
     char* ptrChar[arraySize];
     int rand();
     srand (time(NULL));
@@ -32,7 +31,6 @@ int main()
         }
     }
     
-
     while (menuStatus)
     {
         cout << "Please select an option:\n\t1. Access a Pointer\n\t2. List Deallocated Memory (index)\n\t3. Deallocate All Memory\n\t4. Exit Program\nYour input: ";
@@ -106,11 +104,10 @@ int main()
                 case 4:
                 {
                     cout << "Thank you for using the program. GoodBye! :)" << endl;
-                    // for (int i = 0; i < (sizeof(arrayInteger)/sizeof(arrayInteger[0])); ++i)
-                    // {
-                    //     delete ptrChar[i];
-                    // }
-                    delete[] ptrChar;
+                    for (int i = 0; i < (sizeof(arrayInteger)/sizeof(arrayInteger[0])); ++i)
+                    {
+                        delete ptrChar[i];
+                    }
                     menuStatus = false;
                     break;
                 }
