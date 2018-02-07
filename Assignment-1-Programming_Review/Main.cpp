@@ -10,9 +10,10 @@ bool validateInput(string);
 int main()
 {
     // Initial Setup of the Program
-    int arraySize = 3;
+    int arraySize = 20;
     bool menuStatus = true;
     bool subMenuStatus;
+    bool pointerAccessMenu;
     string decision;
     int arrayInteger[arraySize];
     char* ptrChar[arraySize];
@@ -21,6 +22,7 @@ int main()
     const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     cout << "Welcome to the Array Structure Program!" << endl;
 
+    // Initializing all the memory and assigning Characters to ptrChar based off arrayInteger's size
     for (int i = 0; i < arraySize; i++)
     {
         arrayInteger[i] = recursiveFunction(i);
@@ -56,19 +58,64 @@ int main()
                             {
                                 if (ptrChar[decisionValue-1] != NULL)
                                 {
-                                    cout << "The pointer at index " << decisionValue << " contains: ";
-                                    for (int k=0; k < arrayInteger[decisionValue-1]; k++)
+                                    pointerAccessMenu = true;
+                                    while (pointerAccessMenu)
                                     {
-                                        cout << ptrChar[decisionValue-1][k];
+                                        cout << "What would you like to do with pointer " << decisionValue << "?\n\t1. Print the first 10 Char\n\t2. Delete all the Char in pointer and return to Main Menu\n\t3. Return to Main Menu\nYour Input: ";
+                                        cin >> decision;
+                                        cout << "\n";
+                                        if (validateInput(decision))
+                                        {
+                                            switch (stoi(decision))
+                                            {
+                                                case 1:
+                                                {
+                                                    cout << "First 10 Chars at Pointer " << decisionValue << " are: '";
+                                                    for (int k=0; k < 10; k++)
+                                                    {
+                                                        cout << ptrChar[decisionValue-1][k];
+                                                    }
+                                                    cout <<"'\n\n";
+                                                    break;
+                                                }
+                                                case 2:
+                                                {
+                                                    cout << "Deleting all Char at Pointer "<<decisionValue<<"\nReturning to Main Menu\n"<<endl;
+                                                    ptrChar[decisionValue-1] = NULL;
+                                                    pointerAccessMenu = false;
+                                                    subMenuStatus = false;
+                                                    break;
+                                                }
+                                                case 3:
+                                                {
+                                                    cout << "\n";
+                                                    pointerAccessMenu = false;
+                                                    subMenuStatus = false;
+                                                    break;
+                                                }
+                                                default:
+                                                {
+                                                    cout << "Invalid Input!!! Please enter 1 - 3"<<endl;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            cout << "Invalid Input!! Please select a number, no other characters allow!"<<endl;
+                                        }
                                     }
-                                    cout <<"\n";
                                 }
                                 else
                                 {
-                                    cout << "The pointer at index " << decisionValue << " contains: NULL" <<endl;
+                                    cout << "The pointer at index " << decisionValue << " contains: NULL Char" <<endl;
+                                    cout << "Reinitializing the Char now....\n" << endl;
+                                    ptrChar[decisionValue-1] = new char[arrayInteger[decisionValue-1]];
+                                    for (int j = 0; j < arrayInteger[decisionValue-1]; j++)
+                                    {
+                                        ptrChar[decisionValue-1][j] = alphabet[rand()%26];
+                                    }
                                 }
-                                subMenuStatus = false;
-                                cout <<"\n";
                             }
                             else
                             {
@@ -133,7 +180,7 @@ int recursiveFunction(int i)
 {
     if (i == 0)
     {
-        return 2;
+        return 2700;
     }
     else
     {
