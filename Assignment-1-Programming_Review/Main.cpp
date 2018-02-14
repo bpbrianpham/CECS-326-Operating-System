@@ -151,6 +151,7 @@ int main()
                     cout << "Deallocating All Memory......\n" << endl;
                     for (int i=0; i < arraySize; i++)
                     {
+                        delete ptrChar[i];
                         ptrChar[i] = NULL; 
                     }
                     break;
