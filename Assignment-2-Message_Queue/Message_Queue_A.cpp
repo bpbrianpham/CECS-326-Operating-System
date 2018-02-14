@@ -1,0 +1,48 @@
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <cstring>
+#include <iostream>
+#include <unistd.h>
+#include <sys/wait.h>
+#include <cstdlib>
+using namespace std;
+
+int main()
+{
+    
+    // Grabbing the existing queue from the other program
+    int qid = msgget(ftok(".",'u'), 0);
+    
+    // declare my message buffer
+	struct buf {
+		long mtype; // required
+		char greeting[50]; // mesg content
+	};
+	buf msg;
+	int size = sizeof(msg)-sizeof(long);
+
+    // sending garbage
+	msg.mtype = 111;
+	strcpy(msg.greeting, "Fake message");
+	msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+
+	strcpy(msg.greeting, "Another fake");
+	msg.mtype = 113;
+	msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+
+	// prepare my message to send
+	strcpy(msg.greeting, "Hello there");	
+	cout << getpid() << ": sends greeting" << endl;
+	msg.mtype = 117; 	// set message type mtype = 117
+	msgsnd(qid, (struct msgbuf *)&msg, size, 0); // sending
+
+	msgrcv(qid, (struct msgbuf *)&msg, size, 314, 0); // reading
+	cout << getpid() << ": gets reply" << endl;
+	cout << "reply: " << msg.greeting << endl;
+	cout << getpid() << ": now exits" << endl;
+
+	msg.mtype = 117;
+	msgsnd (qid, (struct msgbuf *)&msg, size, 0);
+    return 0;
+}
