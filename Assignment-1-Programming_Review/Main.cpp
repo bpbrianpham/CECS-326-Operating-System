@@ -81,6 +81,7 @@ int main()
                                                 case 2:
                                                 {
                                                     cout << "Deleting all Char at Pointer "<<decisionValue<<"\nReturning to Main Menu\n"<<endl;
+                                                    delete ptrChar[decisionValue-1];
                                                     ptrChar[decisionValue-1] = NULL;
                                                     pointerAccessMenu = false;
                                                     subMenuStatus = false;
