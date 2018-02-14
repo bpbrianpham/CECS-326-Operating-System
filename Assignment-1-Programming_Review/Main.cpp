@@ -134,7 +134,14 @@ int main()
                     cout << "Deallocated Memory:";
                     for (int i=0; i < arraySize; i++)
                     {
-                        cout << "\n\t" << i+1 << ". " << &ptrChar[i];
+                        if (ptrChar[i] == NULL)
+                        {
+                            cout << "\n\t" << i+1 <<". NULL";
+                        }
+                        else
+                        {
+                            cout << "\n\t" << i+1 << ". " << &ptrChar[i];
+                        }
                     }
                     cout << "\n\n";
                     break;
