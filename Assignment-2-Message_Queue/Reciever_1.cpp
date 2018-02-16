@@ -14,22 +14,22 @@ int main()
     // Using ftok() to generate a queue
 	int qid = msgget(ftok(".",'u'), IPC_EXCL|IPC_CREAT|0600);
 
-    // Declaring my message buffer
-	struct buf {
+    // declare my message buffer and its size
+	struct buf 
+	{
 		long mtype; // required
-		char greeting[50]; // mesg content
+		string message; // mesg content
 	};
-
-    buf msg; 
-    int size = sizeof(msg) - sizeof(long);
+	buf msg;
+	int size = sizeof(msg)-sizeof(long);
 
     // Reading send messages
     msgrcv(qid, (struct msgbuf *)&msg, size, 117, 0);
     cout << getpid() << ": gets message" << endl;
-    cout << "message: " << msg.greeting << endl;
+    cout << "message: " << msg.message << endl;
 
-    strcat(msg.greeting, "and Adios.");
-    
+    msg.message = " and adios";
+
     cout << getpid() <<": Send to the nearest queu";
     msg.mtype = 314; // only reading mesg with type mtype = 314
 	msgsnd(qid, (struct msgbuf *)&msg, size, 0);
