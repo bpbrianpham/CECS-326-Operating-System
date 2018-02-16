@@ -10,11 +10,19 @@
 
 using namespace std;
 
+bool validateInput(string);
+
 int main()
 {
 	// Setting the seed for a random generator
     int rand();
     srand (time(NULL));
+
+	// Booleans for Menu
+	bool keepGoing = true;
+
+	// Variables to use
+	string decision;
 
     // Grabbing the existing queue from the other program
     int qid = msgget(ftok(".",'u'), 0);
@@ -28,18 +36,46 @@ int main()
 	buf msg;
 	int size = sizeof(msg)-sizeof(long);
 
-	// prepare my message to send
-	msg.message = "Hello There!!";
-	cout << getpid() << ": sends message" << endl;
-	msg.mtype = 117; 	// set message type mtype = 117
-	msgsnd(qid, (struct msgbuf *)&msg, size, 0); // sending
+	cout << "Welcome Sender 251"<<endl;
 
-	msgrcv(qid, (struct msgbuf *)&msg, size, 314, 0); // reading
-	cout << getpid() << ": gets reply" << endl;
-	cout << "reply: " << msg.message << endl;
-	cout << getpid() << ": now exits" << endl;
-
-	msg.mtype = 117;
-	msgsnd (qid, (struct msgbuf *)&msg, size, 0);
+	while(keepGoing)
+	{
+		cout << "What number would you like to send to Reciever 1? (\"quit\" to quit)\nYour Number: ";
+		cin >> decision;
+		if(decision.compare("quit") == 0)
+		{
+			cout << "\nSending quit to queue...\n\tQuiting, GoodBye! :)\n";
+			msg.message = decision;
+			msg.mtype = 117;
+			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+			exit(0);
+		}
+		if(validateInput(decision))
+		{
+			cout << "\nSending your number.....\n";
+			msg.message = decision;
+			msg.mtype = 117;
+			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+		}
+		else
+		{
+			cout << "Invalid Input!! please send number only!!\n\n";
+		}
+	} 
     return 0;
+}
+
+// -------------- Custom Functions ---------//
+// Decision validation function
+bool validateInput(string input)
+{
+    for (int i = 0; i < input.length(); i++)
+    {
+        char c = input[i];
+        if (!isdigit(c))
+        {
+            return false;
+        }
+    }
+    return true;
 }

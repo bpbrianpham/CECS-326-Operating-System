@@ -6,13 +6,22 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include <cstdlib>
+
 using namespace std;
+
+bool validateInput(string);
 
 int main() 
 {
+    // Booleans for Menu
+	bool keepGoing = true;
+
+	// Variables to use
+	string decision;
 
     // Using ftok() to generate a queue
 	int qid = msgget(ftok(".",'u'), IPC_EXCL|IPC_CREAT|0600);
+    cout << "Queue Created, now waiting....." <<endl;
 
     // declare my message buffer and its size
 	struct buf 
@@ -23,24 +32,37 @@ int main()
 	buf msg;
 	int size = sizeof(msg)-sizeof(long);
 
-    // Reading send messages
-    msgrcv(qid, (struct msgbuf *)&msg, size, 117, 0);
-    cout << getpid() << ": gets message" << endl;
-    cout << "message: " << msg.message << endl;
+    while(keepGoing)
+    {
+        msgrcv(qid, (struct msgbuf *)&msg, size, 117, 0);
+        if(msg.message.compare("quit") == 0)
+        {
+            keepGoing = false;
+            cout << "\nQuiting Program....."<<endl;
 
-    msg.message = " and adios";
+            // now safe to delete message queue
+	        msgctl (qid, IPC_RMID, NULL);
+        }
+        else
+        {
+            cout << "Message Received: "<<msg.message<<endl;
+        }
 
-    cout << getpid() <<": Send to the nearest queu";
-    msg.mtype = 314; // only reading mesg with type mtype = 314
-	msgsnd(qid, (struct msgbuf *)&msg, size, 0);
-	cout << getpid() << ": now exits" << endl;
-
-    msgrcv (qid, (struct msgbuf *)&msg, size, -112, 0);
-	msgrcv (qid, (struct msgbuf *)&msg, size, 0, 0);
-	msgrcv (qid, (struct msgbuf *)&msg, size, 117, 0);
-
-    // Deleting the Message Queue	
-    msgctl (qid, IPC_RMID, NULL);
-
+    }
     return 0;
+}
+
+// -------------- Custom Functions ---------//
+// Decision validation function
+bool validateInput(string input)
+{
+    for (int i = 0; i < input.length(); i++)
+    {
+        char c = input[i];
+        if (!isdigit(c))
+        {
+            return false;
+        }
+    }
+    return true;
 }
