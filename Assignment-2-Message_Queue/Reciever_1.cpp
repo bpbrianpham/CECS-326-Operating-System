@@ -18,7 +18,8 @@ int main()
 
 	// Variables to use
 	string decision;
-
+    string messageFromQueue;
+    
     // Using ftok() to generate a queue
 	int qid = msgget(ftok(".",'u'), IPC_EXCL|IPC_CREAT|0600);
     cout << "Queue Created, now waiting....." <<endl;
@@ -27,7 +28,7 @@ int main()
 	struct buf 
 	{
 		long mtype; // required
-		string message; // mesg content
+		char message[50]; // mesg content
 	};
 	buf msg;
 	int size = sizeof(msg)-sizeof(long);
@@ -35,7 +36,8 @@ int main()
     while(keepGoing)
     {
         msgrcv(qid, (struct msgbuf *)&msg, size, 117, 0);
-        if(msg.message.compare("quit") == 0)
+        messageFromQueue = msg.message;
+        if(messageFromQueue.compare("quit") == 0)
         {
             keepGoing = false;
             cout << "\nQuiting Program....."<<endl;
