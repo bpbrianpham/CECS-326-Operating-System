@@ -46,7 +46,7 @@ int main()
 		{
 			cout << "\nSending quit to queue...\n\tQuiting, GoodBye! :)\n";
 			msg.message = decision;
-			msg.mtype = 117;
+			msg.mtype = 118;
 			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
 			exit(0);
 		}
@@ -54,7 +54,7 @@ int main()
 		{
 			cout << "\nSending your number.....\n";
 			msg.message = decision;
-			msg.mtype = 117;
+			msg.mtype = 118;
 			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
 		}
 		else
