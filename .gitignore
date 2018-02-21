@@ -33,3 +33,6 @@
 
 # Mac iWork Application
 *.pages
+
+# VS Code files ignore
+*.vscode
