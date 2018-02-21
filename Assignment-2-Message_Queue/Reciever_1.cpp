@@ -35,7 +35,9 @@ int main()
 
     while(keepGoing)
     {
+        cout << 
         msgrcv(qid, (struct msgbuf *)&msg, size, 117, 0);
+        cout << endl;
         messageFromQueue = msg.message;
         if(messageFromQueue.compare("quit") == 0)
         {

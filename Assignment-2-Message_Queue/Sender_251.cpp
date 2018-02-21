@@ -47,7 +47,9 @@ int main()
 			cout << "\nSending quit to queue...\n\tQuiting, GoodBye! :)\n";
 			msg.message = decision;
 			msg.mtype = 117;
+			cout << 
 			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+			cout << endl;
 			exit(0);
 		}
 		if(validateInput(decision))
