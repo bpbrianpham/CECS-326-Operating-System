@@ -57,7 +57,9 @@ int main()
 			cout << "\nSending your number.....\n";
 			msg.message = decision;
 			msg.mtype = 117;
+			cout <<
 			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+			cout <<endl;
 		}
 		else
 		{
