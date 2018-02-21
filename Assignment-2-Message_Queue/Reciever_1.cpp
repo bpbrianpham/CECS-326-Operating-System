@@ -28,7 +28,7 @@ int main()
 	struct buf 
 	{
 		long mtype; // required
-		char message[50]; // mesg content
+		string message; // mesg content
 	};
 	buf msg;
 	int size = sizeof(msg)-sizeof(long);
@@ -52,19 +52,4 @@ int main()
 
     }
     return 0;
-}
-
-// -------------- Custom Functions ---------//
-// Decision validation function
-bool validateInput(string input)
-{
-    for (int i = 0; i < input.length(); i++)
-    {
-        char c = input[i];
-        if (!isdigit(c))
-        {
-            return false;
-        }
-    }
-    return true;
 }
