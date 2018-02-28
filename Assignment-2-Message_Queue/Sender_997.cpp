@@ -36,7 +36,7 @@ int main()
 	buf msg;
 	int size = sizeof(msg)-sizeof(long);
 
-	cout << "Welcome Sender 251"<<endl;
+	cout << "Welcome Sender 997"<<endl;
 
 	while(keepGoing)
 	{
