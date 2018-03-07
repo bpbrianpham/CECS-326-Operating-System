@@ -28,17 +28,16 @@ int main()
 	struct buf 
 	{
 		long mtype; // required
-		string message; // mesg content
+		char message[50]; // mesg content
 	};
 	buf msg;
 	int size = sizeof(msg)-sizeof(long);
 
     while(keepGoing)
     {
-        cout << 
         msgrcv(qid, (struct msgbuf *)&msg, size, 117, 0);
-        cout << " bytes "<<endl;
         messageFromQueue = msg.message;
+
         if(messageFromQueue.compare("quit") == 0)
         {
             keepGoing = false;
@@ -49,7 +48,7 @@ int main()
         }
         else
         {
-            cout << "Message Received: "<<msg.message<<endl;
+            cout << "251's Message Received: "<<msg.message<<endl;
         }
 
     }

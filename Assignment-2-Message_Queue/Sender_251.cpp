@@ -31,7 +31,7 @@ int main()
 	struct buf 
 	{
 		long mtype; // required
-		string message; // mesg content
+		char message[50]; // mesg content
 	};
 	buf msg;
 	int size = sizeof(msg)-sizeof(long);
@@ -40,26 +40,58 @@ int main()
 
 	while(keepGoing)
 	{
-		cout << "What number would you like to send to Reciever 1? (\"quit\" to quit)\nYour Number: ";
+		cout << "What number would you like to send to Reciever 1?";
+		cout << "\n\t(\"quit\" to quit)\n\t(\"rand\" to randomly send 5 numbers divisible by 251)\nYour Number: ";
 		cin >> decision;
 		if(decision.compare("quit") == 0)
 		{
 			cout << "\nSending quit to queue...\n\tQuiting, GoodBye! :)\n";
-			msg.message = decision;
+			decision = "251: " + decision;
+			strcpy(msg.message, decision.c_str());
 			msg.mtype = 117;
-			cout << 
 			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
-			cout << endl;
 			exit(0);
 		}
-		if(validateInput(decision))
+		else if(decision.compare("rand") == 0)
 		{
-			cout << "\nSending your number.....\n";
-			msg.message = decision;
-			msg.mtype = 117;
-			cout <<
-			msgsnd(qid, (struct msgbuf *)&msg, size, 0);
-			cout <<endl;
+			cout << "Randomizing Integer and sending 5 valid markers...." <<endl;
+			int sendCount = 0;
+			while (sendCount < 5)
+			{
+				int tempNumber = rand();
+				if (tempNumber % 251 == 0)
+				{
+					sendCount = sendCount + 1;
+					cout.width(15);
+					cout << left << tempNumber << " : Sended"<<endl;
+					decision = "251: " + decision;
+					strcpy(msg.message, decision.c_str());
+					msg.mtype = 117;
+					msgsnd(qid, (struct msgbuf *)&msg, size, 0);	
+				} 
+				else
+				{
+					cout.width(15); 
+					cout<< left << tempNumber << " : Trash"<<endl;
+				}
+			}
+			cout << "All 5 numbers sended......\n"<<endl;
+		}
+		else if(validateInput(decision))
+		{
+			int tempNumber = stoi(decision);
+			if (tempNumber % 251 == 0)
+			{
+				cout << "Sending your number: "<<tempNumber<<"\n\n";
+				decision = "251: " + decision;
+				strcpy(msg.message, decision.c_str());
+				msg.mtype = 117;
+				msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+			}
+			else
+			{
+				cout << "The number: "<<tempNumber<<" is NOT divisible by 251.\n"<<endl;
+			}
 		}
 		else
 		{
