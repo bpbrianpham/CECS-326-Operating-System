@@ -9,8 +9,6 @@
 
 using namespace std;
 
-bool validateInput(string);
-
 int main() 
 {
     // Booleans for Menu
@@ -23,7 +21,7 @@ int main()
 
     // Using ftok() to generate a queue
 	int qid = msgget(ftok(".",'u'), IPC_EXCL|IPC_CREAT|0600);
-    cout << "Queue Created, now waiting....." <<endl;
+    cout << "Queue Created, now waiting.....\n" <<endl;
 
     // declare my message buffer and its size
 	struct buf 

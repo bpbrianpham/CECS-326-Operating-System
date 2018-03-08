@@ -11,11 +11,11 @@
 using namespace std;
 
 bool validateInput(string);
+int rand();
 
 int main()
 {
 	// Setting the seed for a random generator
-    int rand();
     srand (time(NULL));
 
 	// Booleans for Menu
@@ -64,7 +64,7 @@ int main()
 					sendCount = sendCount + 1;
 					cout.width(15);
 					cout << left << tempNumber << " : Sended"<<endl;
-					decision = "251: " + decision;
+					decision = "251: " + to_string(tempNumber);
 					strcpy(msg.message, decision.c_str());
 					msg.mtype = 117;
 					msgsnd(qid, (struct msgbuf *)&msg, size, 0);	
@@ -79,10 +79,9 @@ int main()
 		}
 		else if(validateInput(decision))
 		{
-			int tempNumber = stoi(decision);
-			if (tempNumber % 251 == 0)
+			if (stoi(decision) % 251 == 0)
 			{
-				cout << "Sending your number: "<<tempNumber<<"\n\n";
+				cout << "Sending your number: "<<decision<<"\n\n";
 				decision = "251: " + decision;
 				strcpy(msg.message, decision.c_str());
 				msg.mtype = 117;
@@ -90,7 +89,7 @@ int main()
 			}
 			else
 			{
-				cout << "The number: "<<tempNumber<<" is NOT divisible by 251.\n"<<endl;
+				cout << "The number: "<<decision<<" is NOT divisible by 251.\n"<<endl;
 			}
 		}
 		else
