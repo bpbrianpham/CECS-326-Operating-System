@@ -17,9 +17,10 @@ int main()
 	bool keepGoing = true;
 
 	// Variables to use
-	string decision;
     string messageFromQueue;
-    
+    string identifier;
+	string realMessage;
+
     // Using ftok() to generate a queue
 	int qid = msgget(ftok(".",'u'), IPC_EXCL|IPC_CREAT|0600);
     cout << "Queue Created, now waiting....." <<endl;
@@ -37,8 +38,10 @@ int main()
     {
         msgrcv(qid, (struct msgbuf *)&msg, size, 117, 0);
         messageFromQueue = msg.message;
+        identifier = messageFromQueue.substr(0,3);
+        realMessage = messageFromQueue.substr(5);
 
-        if(messageFromQueue.compare("quit") == 0)
+        if(realMessage.compare("quit") == 0)
         {
             keepGoing = false;
             cout << "\nQuiting Program....."<<endl;
@@ -48,9 +51,18 @@ int main()
         }
         else
         {
-            cout << "251's Message Received: "<<msg.message<<endl;
+            if (identifier.compare("997"))
+            {
+                cout << identifier <<"'s Message Received: "<< realMessage <<endl;
+                strcpy(msg.message, "Roger Roger from Receiver 1");
+                msg.mtype = 1;
+			    msgsnd(qid, (struct msgbuf *)&msg, size, 0);
+            }
+            else
+            {
+                cout << identifier <<"'s Message Received: "<< realMessage <<endl;
+            }
         }
-
     }
     return 0;
 }
