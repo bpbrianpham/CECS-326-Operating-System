@@ -22,7 +22,7 @@ int main()
 	bool keepGoing = true;
 
 	// Variables to use
-	string decision;
+	string messageContent;
 
     // Grabbing the existing queue from the other program
     int qid = msgget(ftok(".",'u'), 0);
@@ -38,7 +38,7 @@ int main()
 
 	cout << "Welcome Sender 997"<<endl;
 
-	messageContent = rand() % 100000;
+	messageContent = "997: " + to_string(rand() % 100000);
 	while(messageContent > 100)
 	{
 
@@ -64,7 +64,7 @@ int main()
 		msgrcv(qid, (struct msgbuf *)&msg, size, 1, 0);
 		cout << "Message Recieved." << endl;
 		
-		messageContent = rand() % 100000;
+		messageContent = "997: " + to_string(rand() % 100000);
 	} 
     return 0;
 }
