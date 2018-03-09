@@ -38,9 +38,14 @@ int main()
 
 	cout << "Welcome Sender 997"<<endl;
 
-	messageContent = "997: " + to_string(rand() % 100000);
-	while(messageContent > 100)
-	{
+	int number = 0;
+	do{
+		
+		do{
+			number = (rand() % 100000) % 997;
+		}while (number != 0);
+
+		messageContent = "997: " + to_string(number);
 
 		cout << "Sending to Reciever 1: " << messageContent;
 		msg.message = messageContent;
@@ -63,9 +68,8 @@ int main()
 		cout << "\nWaiting For Reciever 2 to recieve . . . " << endl;
 		msgrcv(qid, (struct msgbuf *)&msg, size, 1, 0);
 		cout << "Message Recieved." << endl;
-		
-		messageContent = "997: " + to_string(rand() % 100000);
-	} 
+
+	} while(number > 100);
     return 0;
 }
 
